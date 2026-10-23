@@ -2,6 +2,12 @@
 
 ERP de InmobApp (ventas, finanzas, administración de inmuebles, nómina y contabilidad) servido por un servidor Node sin dependencias, con usuario y contraseña y sincronización entre usuarios.
 
+## Demo en línea (GitHub Pages)
+
+https://ereslorenso.github.io/nmobapp-inmobapp-erp-prueba/
+
+Versión para ejercicios: arranca con datos de ejemplo y cada persona trabaja con su propia copia guardada en su navegador (no se comparte con el resto). Para volver a empezar: Configuración › Respaldo de datos › **Restablecer demo**. Código en `docs/`.
+
 ## Probarlo en GitHub Codespaces (recomendado para el equipo)
 
 1. En este repositorio: **Code › Codespaces › Create codespace on main**.
