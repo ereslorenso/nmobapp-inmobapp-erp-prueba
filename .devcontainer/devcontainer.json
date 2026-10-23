@@ -1,0 +1,8 @@
+{
+  "name": "InmobApp ERP · ambiente de prueba",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "forwardPorts": [8080],
+  "portsAttributes": { "8080": { "label": "InmobApp ERP", "onAutoForward": "openBrowser" } },
+  "postStartCommand": "nohup node server.js > servidor.log 2>&1 &",
+  "postAttachCommand": "sleep 2; cat servidor.log"
+}

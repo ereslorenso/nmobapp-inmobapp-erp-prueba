@@ -1,0 +1,77 @@
+INMOBAPP ERP · SERVIDOR DE PRUEBA
+=================================
+
+Con esta carpeta el ERP queda publicado en una dirección IP, y varias personas
+lo usan a la vez con los mismos datos. Lo que uno registra le aparece al resto
+en unos 5 segundos, sin recargar la página. Para entrar se pide usuario y
+contraseña.
+
+Requisito: Node.js 18 o superior (https://nodejs.org, versión LTS).
+No hace falta instalar nada más: el servidor no tiene dependencias.
+
+
+OPCIÓN 1 · RED DE LA OFICINA (lo más rápido)
+--------------------------------------------
+1. Instala Node.js en la laptop que hará de servidor.
+2. Doble clic en "iniciar-servidor.bat".
+3. Si Windows pregunta por el Firewall, marca "Redes privadas" y pulsa "Permitir acceso".
+4. La ventana muestra, por ejemplo:
+      En tu red / servidor: http://192.168.1.25:8080
+      Usuario:    admin
+      Contraseña: xxxxxxxx
+5. Cualquier equipo o teléfono conectado al mismo WiFi abre esa dirección
+   en el navegador y entra con el usuario y la contraseña.
+6. Deja la ventana abierta mientras lo usen. Si la laptop se apaga o se
+   suspende, el ERP deja de estar disponible.
+
+
+OPCIÓN 2 · VPS CON IP PÚBLICA (acceso desde cualquier lugar)
+------------------------------------------------------------
+Sirve cualquier VPS Linux de entre 5 y 6 USD al mes (DigitalOcean, Hetzner,
+Vultr, Contabo, etc.) con Ubuntu.
+
+  # en el VPS, como root:
+  curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+  apt-get install -y nodejs unzip
+  mkdir -p /opt/inmobapp-erp
+  # sube el zip (con WinSCP o scp) y descomprímelo en /opt/inmobapp-erp
+  cd /opt/inmobapp-erp && node server.js       # prueba manual; Ctrl+C para salir
+  ufw allow 8080/tcp                            # si el firewall está activo
+
+Abre http://IP-DEL-VPS:8080
+
+Para que arranque solo y siga funcionando después de reiniciar, usa el archivo
+"inmobapp-erp.service". Las instrucciones están dentro del archivo.
+
+
+USUARIO Y CONTRASEÑA
+--------------------
+La primera vez que arranca, el servidor crea "config.json" con el usuario
+"admin" y una contraseña al azar. Para cambiarlos, edita ese archivo y
+reinicia el servidor. Todas las personas comparten el mismo usuario.
+
+
+TUS DATOS
+---------
+- Están en la carpeta "datos", junto a server.js.
+- Cada día se guarda un respaldo en "datos/respaldos" (se conservan los
+  últimos 30).
+- El servidor arranca vacío. Para cargar datos, entra en Configuración >
+  Respaldo de datos > Importar. Puedes usar "datos-de-ejemplo.json" o un
+  respaldo exportado desde la versión en Claude o desde la app de escritorio.
+  Antes de reemplazar los datos, el servidor guarda una copia de los que
+  había.
+- Esta versión, la publicada en Claude y la app de escritorio guardan datos
+  por separado. Para pasar los datos de una a otra, exporta un respaldo e
+  impórtalo en la otra.
+
+
+IMPORTANTE · SOLO PARA PRUEBAS
+------------------------------
+- La conexión es HTTP sin cifrar. En una red pública o por Internet, alguien
+  podría interceptar la contraseña y los datos. Para usarlo con datos reales
+  de clientes hace falta un dominio con HTTPS: por ejemplo Caddy o Nginx con
+  Let's Encrypt delante del puerto 8080, o un túnel de Cloudflare.
+- Hay un solo usuario y no hay permisos por rol.
+- Si dos personas modifican el mismo registro en el mismo instante, se queda
+  el último cambio guardado.

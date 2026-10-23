@@ -1,0 +1,5 @@
+# datos y contraseña: nunca se suben al repositorio
+config.json
+datos/
+servidor.log
+node_modules/
